@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.File;
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, NumberFormatException {
         Scanner sf = new Scanner(new File("scores.txt"));
         String array[] = new String[1000];
 
@@ -12,27 +12,21 @@ public class Main {
 
         /*while (sf.hasNextLine()) {
             int i = 1;
-
             String s = sf.nextLine();
             String dumbarray[] = s.split("\\t");
-
             if (dumbarray.length == 22) {
-
                 while (i % 22 != 0) {
-
                     array[i - 1] = dumbarray[i - 1];
                     i++;
-
                 }
-
             }
-
         }
         System.out.print(array[21]);
         String newArray[] = new String[10000];*/
-
+        sf.nextLine();
         while (sf.hasNextLine())
         {
+
             array[maxIndx] = sf.nextLine();
             maxIndx++;
         }
@@ -43,31 +37,84 @@ public class Main {
 
 
 
-            System.out.println(columns[3]);
+        System.out.println(columns[3]);
 
 
 
         String schoolName [] = new String[columns.length];
         double averageArray [] = new double[columns.length];
 
-        for (int i = 0; i < columns.length; i++) {
+        int goUp = 0;
+        for (int i = 0; i < maxIndx; i++, goUp++) {
             double num1, num2, num3;
-
+//PROBLEM----scanner system is reading the blank lines in the file try and fix it
             columns = array[i].split("\t");
 
-            num1 = Double.parseDouble(columns[18]);
-            num2 = Double.parseDouble(columns[19]);
-            num3 = Double.parseDouble(columns[20]);
+            if(columns.length == 22 && !columns[18].equals("")) {
+
+                System.out.println(columns[18]);
+
+                num1 = Double.parseDouble(columns[18]);
+                num2 = Double.parseDouble(columns[19]);
+                num3 = Double.parseDouble(columns[20]);
 
 
-            double average = (num1 + num2 + num3) / 3;
+                double average = (num1 + num2 + num3) / 3;
 
-            averageArray[i] = average;
-            schoolName[i] = columns[1];
+                averageArray[goUp] = average;
+                schoolName[goUp] = columns[1];
 
-            System.out.println(columns[1] + ": " + average);
+                System.out.println(schoolName[goUp] + ": " + averageArray[goUp]);
 
+
+            }
+
+            else {
+                int nothingHappens;
+            }
         }
+
+        double highestAverage = 0;
+        double secondAverage = 0;
+        double thirdAverage = 0;
+
+
+
+        for (int i = 1; i < averageArray.length; i++) {
+            if (averageArray[i] > thirdAverage) {
+
+                if (averageArray[i] > secondAverage) {
+                    
+                    if (averageArray[i] > highestAverage) {
+                        thirdAverage = secondAverage;
+                        secondAverage = highestAverage;
+                        highestAverage = averageArray[i];
+                                                          }
+
+                    else if (averageArray[i] == secondAverage) {
+
+                    }
+
+                    else {
+                        thirdAverage = secondAverage;
+                        averageArray[i] = secondAverage;
+                         }
+
+                }
+
+                else {
+                    averageArray[i] = thirdAverage;
+                }
+            }
+
+
+
+            else {
+                int donothing;
+            }
+        }
+        System.out.println(highestAverage + secondAverage + thirdAverage);
+        //READ ME ------- COMPARE THE INDICES IN THE AVERAGE ARRAY TO FIND THE AVERAGE AND PUT THE TEAM NAME THERE
     }
 
 }
